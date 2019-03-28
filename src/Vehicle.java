@@ -1,13 +1,14 @@
+import java.util.Arrays;
 
-public class Vehicle {
+public abstract class Vehicle {
 	
 	private String vehicleId;
 	private int year;
 	private String make;
 	private String model;
-	private int numSeats;
-	private String vehicleType;
-	private String vehicleStatus;
+	private int numOfSeats;
+	private String type;
+	private String status;
 	private RentalRecord[] rentalRecord;
 	
 	public Vehicle(String vehicleId, int year, String make, String model, int numSeats, String vehicleType,
@@ -16,9 +17,10 @@ public class Vehicle {
 		this.year = year;
 		this.make = make;
 		this.model = model;
-		this.numSeats = numSeats;
-		this.vehicleType = vehicleType;
-		this.vehicleStatus = vehicleStatus;
+		this.numOfSeats = numSeats;
+		this.type = vehicleType;
+		this.status = vehicleStatus;
+		this.rentalRecord = new RentalRecord[10];
 	}
 
 	public String getVehicleId() {
@@ -53,28 +55,61 @@ public class Vehicle {
 		this.model = model;
 	}
 
-	public int getNumSeats() {
-		return numSeats;
+	public int getNumOfSeats() {
+		return numOfSeats;
 	}
 
-	public void setNumSeats(int numSeats) {
-		this.numSeats = numSeats;
+	public void setNumOfSeats(int numOfSeats) {
+		this.numOfSeats = numOfSeats;
 	}
 
-	public String getVehicleType() {
-		return vehicleType;
+	public String getType() {
+		return type;
 	}
 
-	public void setVehicleType(String vehicleType) {
-		this.vehicleType = vehicleType;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getVehicleStatus() {
-		return vehicleStatus;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setVehicleStatus(String vehicleStatus) {
-		this.vehicleStatus = vehicleStatus;
+	public void setStatus(String status) {
+		this.status = status;
 	}
+
+	public RentalRecord[] getRentalRecord() {
+		return rentalRecord;
+	}
+
+	public void setRentalRecord(RentalRecord[] rentalRecord) {
+		this.rentalRecord = rentalRecord;
+	}
+
+	public String toString() {
+		//"vehicleId:year:make:model:numOfSeats:status"
+		return vehicleId+":"+year+":"+make+":"+model+":"+numOfSeats+":"+status;
+	}
+	
+	public String getDetails() {
+		String details = 
+				"Vehicle ID:     "+this.vehicleId+"\n"+
+				"Year:           "+this.year+"\n"+
+				"Make:           "+this.make+"\n"+
+				"Model           "+this.model+"\n"+
+				"Number of seats:"+this.numOfSeats+"\n"+
+				"Status:         "+this.status+"\n";
+		if(rentalRecord.length == 0 || rentalRecord == null){
+			details += "RENTAL RECORD:         "+"empty";
+		}else{
+			details += "RENTAL RECORD:         "+"\n";
+			for(int i = 0; i<rentalRecord.length;i++){
+				details += "RENTAL RECORD:         "+"\n";
+			}
+		}
+		return details;
+	}
+	
 	
 }

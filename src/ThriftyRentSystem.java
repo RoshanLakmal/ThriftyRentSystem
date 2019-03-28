@@ -1,7 +1,11 @@
+import util.DateTime;
 
 public class ThriftyRentSystem {
 
 	public void runProgram() {
-		System.out.println("program running");
+		double value = 200.3456;
+		System.out.printf("Value: %.2f", value);
+//		DateTime test = new DateTime();
+//		System.out.println(test);
 	}
 }

@@ -66,4 +66,33 @@ public class RentalRecord {
 	public void setLateFee(double lateFee) {
 		this.lateFee = lateFee;
 	}
+
+	@Override
+	public String toString() {
+		if(rentalFee == 0.00 && lateFee == 0.00){
+			return this.recordId+":"+this.rentDate+":"+this.estiReturnDate+":"+"none"+":"+"none"+":"+"none";
+		}else{
+			return this.recordId+":"+this.rentDate+":"+this.estiReturnDate+":"+this.actReturnDate+":"+this.rentalFee+":"+this.lateFee;
+		}	
+	}
+	
+	public String getDetails() {
+		
+		String details = 
+				"Record ID:                       "+this.recordId+"\n"+
+				"Rent Date:                       "+this.rentDate+"\n"+
+				"Estimated Return Date:           "+this.estiReturnDate+"\n";
+		
+		if(rentalFee == 0.00 && lateFee == 0.00){
+			return details;
+		}else{
+			details += 
+					"Actual Return Date:             "+this.actReturnDate+"\n"+
+					"Rental Fee:                     "+String.format("%.2f", this.rentalFee)+"\n"+
+					"Late Fee:                       "+String.format("%.2f", this.lateFee)+"\n";
+			return details;
+		}
+	}
+	
+	
 }

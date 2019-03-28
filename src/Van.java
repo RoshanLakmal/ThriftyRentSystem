@@ -1,6 +1,6 @@
 import util.DateTime;
 
-public class Van extends Vehicle{
+public class Van extends Vehicle implements IRentable,IMaintainable{
 
 	private DateTime lastMaintenance;
 	
@@ -15,6 +15,30 @@ public class Van extends Vehicle{
 		return this.getVehicleId()+":"+this.getYear()+":"+this.getMake()+":"+this.getModel()+":"+this.getNumOfSeats()+":"+this.getStatus()+":"+this.lastMaintenance;
 	}
 
+	@Override
+	public boolean performMaintenance() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean completeMaintenance() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean returnvehicle(DateTime returnDate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	@Override
 	public String getDetails() {
 		String details = 
@@ -46,7 +70,5 @@ public class Van extends Vehicle{
 		}
 		return details;
 	}
-	
-	
 	
 }

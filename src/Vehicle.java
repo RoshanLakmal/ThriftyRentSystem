@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.LinkedList;
 
 public abstract class Vehicle {
 	
@@ -9,7 +9,7 @@ public abstract class Vehicle {
 	private int numOfSeats;
 	private String type;
 	private String status;
-	private RentalRecord[] rentalRecord;
+	private LinkedList<RentalRecord> rentalRecord;
 	
 	public Vehicle(String vehicleId, int year, String make, String model, int numSeats, String vehicleType,
 			String vehicleStatus) {
@@ -20,7 +20,6 @@ public abstract class Vehicle {
 		this.numOfSeats = numSeats;
 		this.type = vehicleType;
 		this.status = vehicleStatus;
-		this.rentalRecord = new RentalRecord[10];
 	}
 
 	public String getVehicleId() {
@@ -79,11 +78,11 @@ public abstract class Vehicle {
 		this.status = status;
 	}
 
-	public RentalRecord[] getRentalRecord() {
+	public LinkedList<RentalRecord> getRentalRecord() {
 		return rentalRecord;
 	}
 
-	public void setRentalRecord(RentalRecord[] rentalRecord) {
+	public void setRentalRecord(LinkedList<RentalRecord> rentalRecord) {
 		this.rentalRecord = rentalRecord;
 	}
 
@@ -100,12 +99,23 @@ public abstract class Vehicle {
 				"Model           "+this.model+"\n"+
 				"Number of seats:"+this.numOfSeats+"\n"+
 				"Status:         "+this.status+"\n";
-		if(rentalRecord.length == 0 || rentalRecord == null){
+		if(rentalRecord.isEmpty()){
 			details += "RENTAL RECORD:         "+"empty";
 		}else{
 			details += "RENTAL RECORD:         "+"\n";
-			for(int i = 0; i<rentalRecord.length;i++){
-				details += "RENTAL RECORD:         "+"\n";
+			for(int i =rentalRecord.size()-1 ; i>0;i--){
+				details += "Record ID:         "+rentalRecord.get(i).getRecordId()+"\n"+
+						   "Rent Date:         "+rentalRecord.get(i).getRentDate()+"\n"+
+						   "Estimated Return Date:         "+rentalRecord.get(i).getEstiReturnDate()+"\n";
+				if(rentalRecord.get(i).getRentalFee()==0){
+					details += "-------------------------------------------------------------------"+"\n";
+					break;
+				}else{
+					details += "Actual Return Date:         "+rentalRecord.get(i).getActReturnDate()+"\n"+
+					           "Rental Fee:         "+rentalRecord.get(i).getRentalFee()+"\n"+
+					           "Late Fee:         "+rentalRecord.get(i).getLateFee()+"\n"+
+					           "-------------------------------------------------------------------"+"\n";
+				}
 			}
 		}
 		return details;

@@ -8,6 +8,7 @@ public class Vehicle {
 	private int numSeats;
 	private String vehicleType;
 	private String vehicleStatus;
+	private RentalRecord[] rentalRecord;
 	
 	public Vehicle(String vehicleId, int year, String make, String model, int numSeats, String vehicleType,
 			String vehicleStatus) {

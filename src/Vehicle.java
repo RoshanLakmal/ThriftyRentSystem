@@ -10,7 +10,7 @@ public abstract class Vehicle {
 	private String status;
 	private LinkedList<RentalRecord> rentalRecord;
 	
-	public Vehicle(String vehicleId, int year, String make, String model, int numSeats, String vehicleType,
+	public Vehicle(String vehicleId, int year, String make, String model, int numSeats,
 			String vehicleStatus) {
 		this.vehicleId = vehicleId;
 		this.year = year;

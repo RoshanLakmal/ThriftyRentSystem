@@ -4,9 +4,9 @@ public class Van extends Vehicle implements IRentable,IMaintainable{
 
 	private DateTime lastMaintenance;
 	
-	public Van(String vehicleId, int year, String make, String model, int numSeats, String vehicleType,
+	public Van(String vehicleId, int year, String make, String model, int numSeats,
 			String vehicleStatus, DateTime lastMaintenance) {
-		super(vehicleId, year, make, model, numSeats, vehicleType, vehicleStatus);
+		super(vehicleId, year, make, model, numSeats, vehicleStatus);
 		this.lastMaintenance = lastMaintenance;
 	}
 

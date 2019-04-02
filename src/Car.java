@@ -2,9 +2,9 @@ import util.DateTime;
 
 public class Car extends Vehicle implements IRentable,IMaintainable{
 
-	public Car(String vehicleId, int year, String make, String model, int numSeats, String vehicleType,
+	public Car(String vehicleId, int year, String make, String model, int numSeats,
 			String vehicleStatus) {
-		super(vehicleId, year, make, model, numSeats, vehicleType, vehicleStatus);
+		super(vehicleId, year, make, model, numSeats, vehicleStatus);
 	}
 
 	@Override

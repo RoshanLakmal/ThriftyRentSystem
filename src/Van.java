@@ -16,25 +16,32 @@ public class Van extends Vehicle implements IRentable,IMaintainable{
 	}
 
 	@Override
+	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
+		if(this.getStatus().equals("rented") || this.getStatus().equals("maintenance")){
+			return false;
+		}else{
+			this.setStatus("rented");
+			new RentalRecord(customerId, rentDate, rentDate, rentDate, numOfRentDay, numOfRentDay);
+			return true;
+		}
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean returnvehicle(DateTime returnDate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
 	public boolean performMaintenance() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean completeMaintenance() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean returnvehicle(DateTime returnDate) {
+	public boolean completeMaintenance(DateTime completionDate) {
 		// TODO Auto-generated method stub
 		return false;
 	}

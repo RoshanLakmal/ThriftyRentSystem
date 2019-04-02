@@ -7,7 +7,6 @@ public abstract class Vehicle {
 	private String make;
 	private String model;
 	private int numOfSeats;
-	private String type;
 	private String status;
 	private LinkedList<RentalRecord> rentalRecord;
 	
@@ -18,7 +17,6 @@ public abstract class Vehicle {
 		this.make = make;
 		this.model = model;
 		this.numOfSeats = numSeats;
-		this.type = vehicleType;
 		this.status = vehicleStatus;
 	}
 
@@ -60,14 +58,6 @@ public abstract class Vehicle {
 
 	public void setNumOfSeats(int numOfSeats) {
 		this.numOfSeats = numOfSeats;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getStatus() {

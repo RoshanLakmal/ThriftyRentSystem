@@ -11,18 +11,8 @@ public class Car extends Vehicle implements IRentable,IMaintainable{
 	public String toString() {
 		return super.toString();
 	}
-
-	@Override
-	public boolean performMaintenance() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean completeMaintenance() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
+	
 
 	@Override
 	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
@@ -32,6 +22,18 @@ public class Car extends Vehicle implements IRentable,IMaintainable{
 
 	@Override
 	public boolean returnvehicle(DateTime returnDate) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean performMaintenance() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean completeMaintenance(DateTime completionDate) {
 		// TODO Auto-generated method stub
 		return false;
 	}

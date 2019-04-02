@@ -69,27 +69,27 @@ public class RentalRecord {
 
 	@Override
 	public String toString() {
-		if(rentalFee == 0.00 && lateFee == 0.00){
-			return this.recordId+":"+this.rentDate+":"+this.estiReturnDate+":"+"none"+":"+"none"+":"+"none";
+		if(rentalFee == 0.00 && lateFee == 0.00 && actReturnDate==null){
+			return recordId+":"+rentDate+":"+estiReturnDate+":"+"none"+":"+"none"+":"+"none";
 		}else{
-			return this.recordId+":"+this.rentDate+":"+this.estiReturnDate+":"+this.actReturnDate+":"+this.rentalFee+":"+this.lateFee;
+			return recordId+":"+rentDate+":"+estiReturnDate+":"+actReturnDate+":"+rentalFee+":"+lateFee;
 		}	
 	}
 	
 	public String getDetails() {
 		
 		String details = 
-				"Record ID:                       "+this.recordId+"\n"+
-				"Rent Date:                       "+this.rentDate+"\n"+
-				"Estimated Return Date:           "+this.estiReturnDate+"\n";
+				"Record ID:                       "+recordId+"\n"+
+				"Rent Date:                       "+rentDate+"\n"+
+				"Estimated Return Date:           "+estiReturnDate+"\n";
 		
-		if(rentalFee == 0.00 && lateFee == 0.00){
+		if(rentalFee == 0.00 && lateFee == 0.00 && actReturnDate==null){
 			return details;
 		}else{
 			details += 
-					"Actual Return Date:             "+this.actReturnDate+"\n"+
-					"Rental Fee:                     "+String.format("%.2f", this.rentalFee)+"\n"+
-					"Late Fee:                       "+String.format("%.2f", this.lateFee)+"\n";
+					"Actual Return Date:             "+actReturnDate+"\n"+
+					"Rental Fee:                     "+String.format("%.2f", rentalFee)+"\n"+
+					"Late Fee:                       "+String.format("%.2f", lateFee)+"\n";
 			return details;
 		}
 	}

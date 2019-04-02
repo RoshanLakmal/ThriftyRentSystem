@@ -83,12 +83,12 @@ public abstract class Vehicle {
 	
 	public String getDetails() {
 		String details = 
-				"Vehicle ID:     "+this.vehicleId+"\n"+
-				"Year:           "+this.year+"\n"+
-				"Make:           "+this.make+"\n"+
-				"Model           "+this.model+"\n"+
-				"Number of seats:"+this.numOfSeats+"\n"+
-				"Status:         "+this.status+"\n";
+				"Vehicle ID:     "+vehicleId+"\n"+
+				"Year:           "+year+"\n"+
+				"Make:           "+make+"\n"+
+				"Model           "+model+"\n"+
+				"Number of seats:"+numOfSeats+"\n"+
+				"Status:         "+status+"\n";
 		if(rentalRecord.isEmpty()){
 			details += "RENTAL RECORD:         "+"empty";
 		}else{

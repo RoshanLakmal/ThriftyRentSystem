@@ -9,7 +9,6 @@ public class ThriftyRentSystem {
 		Vehicle[] vehicles = new Vehicle[50];
 		int vehicleCounter = 0;
 		
-		
 		while(true){
 			
 			try{	
@@ -44,7 +43,7 @@ public class ThriftyRentSystem {
 								if(v != null){
 									if(v.getVehicleId().equals(vehicleId)){
 										System.out.println("");
-										System.err.println("Vehicle ID Already Exists: please enter a different vehicle id");
+										System.out.println("Vehicle ID Already Exists: please enter a different vehicle id");
 										System.out.println("");
 										accept = false;
 								}
@@ -53,7 +52,7 @@ public class ThriftyRentSystem {
 
 					}else{
 						System.out.println("");
-						System.err.println("Invalid Vehicle ID: Vehicle ID need to be starts with C_ for car and V_ for van");
+						System.out.println("Invalid Vehicle ID: Vehicle ID need to be starts with C_ for car and V_ for van");
 						System.out.println("");
 						accept = false;
 					}
@@ -69,9 +68,11 @@ public class ThriftyRentSystem {
 								Car myCar = new Car(vehicleId, vehicleYear, vehicleMake, vehicleModel, vehicleSeats, "rent");
 								vehicles[vehicleCounter] = myCar;
 								vehicleCounter++;
-								System.err.println("A car with ID - "+vehicleId+" created.");
+								System.out.println("A car with ID - "+vehicleId+" created.");
 							}else {
-								System.err.println("A car can have either 4 or 7 passenger seats");
+								System.out.println("");
+								System.out.println("A car can only have either 4 or 7 passenger seats");
+								System.out.println("");
 							}
 						}else{
 							System.out.println("Enter last maintenance date:");
@@ -87,14 +88,15 @@ public class ThriftyRentSystem {
 								Van myVan = new Van(vehicleId, vehicleYear, vehicleId, vehicleId, vehicleYear, vehicleId, new DateTime(day,month,year));
 								vehicles[vehicleCounter] = myVan;
 								vehicleCounter++;
-								System.err.println("A van with ID - "+vehicleId+" created.");
+								System.out.println("A van with ID - "+vehicleId+" created.");
 							}else{
-								System.err.println("Invalid Date");
+								System.out.println("");
+								System.out.println("Invalid Date");
+								System.out.println("");
 							}
 						}
 						System.out.println("Done");
-					}
-//					DateTime vehicleMaintenanceDay = 
+					} 
 					break;
 				case 2:
 					break;
@@ -110,12 +112,14 @@ public class ThriftyRentSystem {
 					System.exit(0);
 					break;
 				default:
-					System.err.println("Invalid Input: Please enter an input between 1 and 7");
+					System.out.println("");
+					System.out.println("Invalid Input: Please enter an input between 1 and 7");
 					System.out.println("");
 					break;
 			}
 			}catch(Exception e){
-				System.err.println("Invalid Input: Please try again...!");
+				System.out.println("");
+				System.out.println("Invalid Input: Please try again...!");
 				System.out.println("");
 			}
 			

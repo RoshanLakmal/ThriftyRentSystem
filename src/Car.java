@@ -49,7 +49,10 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean returnvehicle(DateTime returnDate) {
-		// TODO Auto-generated method stub
+		int dayDiff = DateTime.diffDays(endDate, startDate)
+		if(){
+			
+		}
 		return false;
 	}
 

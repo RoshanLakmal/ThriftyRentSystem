@@ -11,8 +11,6 @@ public class ThriftyRentSystem {
 	
 	public void runProgram() {
 
-//		Vehicle[] vehicles = new Vehicle[50];
-		int vehicleCounter = 0;
 		
 		while(true){
 			
@@ -105,31 +103,13 @@ public class ThriftyRentSystem {
 	}
 	
 	private void addVehicle() throws InvalidUserInput{
-
+//		throw new InvalidUserInput("Input need to be Yes or No");
 		Scanner addVehicleInput = new Scanner(System.in);
 		boolean accept = true;
 		
 
 		System.out.println("Enter vehicle id:                     ");
-		System.out.println("Do you want to Generate automatically? Yes : No");
-		String userInp = addVehicleInput.nextLine();
-		String vehicleId = "";
-		
-		if(userInp.toUpperCase().equals("YES")){
-			System.out.println("Do you wan to add a Car or Van? Car: Van");
-			String temp = addVehicleInput.nextLine();
-			if(temp.toUpperCase().equals("CAR")){
-				vehicleId = "C_"+genRanId();
-			}else if(temp.toUpperCase().equals("VAN")){
-				vehicleId = "V_"+genRanId();
-			}else{
-				throw new InvalidUserInput("Input need to be Car or Van");
-			}
-		}else if(userInp.equals("No")){
-			vehicleId = addVehicleInput.nextLine();
-		}else{
-			throw new InvalidUserInput("Input need to be Yes or No");
-		}
+		String vehicleId = addVehicleInput.nextLine();
 
 		String vehicleType = vehicleId.substring(0,2);
 		
@@ -144,66 +124,49 @@ public class ThriftyRentSystem {
 		String vehicleModel = addVehicleInput.nextLine();
 		
 		
-//		if(vehicleType.equals("C_") || vehicleType.equals("V_")){
-////			vehicles.containsKey(key);
-////			for(Vehicle v : vehicles){
-////					if(v != null){
-////						if(v.getVehicleId().equals(vehicleId)){
-////							System.out.println("");
-////							System.out.println("Vehicle ID Already Exists: please enter a different vehicle id");
-////							System.out.println("");
-////							accept = false;
-////					}
-////				}
-////			}
-//
-//		}else{
-//			System.out.println("");
-//			System.out.println("Invalid Vehicle ID: Vehicle ID need to be starts with C_ for car and V_ for van");
-//			System.out.println("");
-//			accept = false;
-//		}
-		
-//		if(accept){
-//			if(vehicleType.equals("C_")){
-//				
-//				System.out.println("Enter number of seats:                ");
-//				int vehicleSeats = addVehicleInput.nextInt();
-//				addVehicleInput.nextLine();
-//				
-//				if(vehicleSeats == 4 || vehicleSeats == 7){
-//					Car myCar = new Car(vehicleId, vehicleYear, vehicleMake, vehicleModel, vehicleSeats, "rent");
-//					vehicles[vehicleCounter] = myCar;
-//					vehicleCounter++;
-//					System.out.println("A car with ID - "+vehicleId+" created.");
-//				}else {
-//					System.out.println("");
-//					System.out.println("A car can only have either 4 or 7 passenger seats");
-//					System.out.println("");
-//				}
-//			}else{
-//				System.out.println("Enter last maintenance date:");
-//				System.out.println("Enter day:                  ");
-//				int day = addVehicleInput.nextInt();
-//				System.out.println("Enter month:                ");
-//				int month = addVehicleInput.nextInt();
-//				System.out.println("Enter year:                 ");
-//				int year = addVehicleInput.nextInt();
-//				
-//				int[] numDayMonth = new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-//				if(day>0 && day <32 && month > 0 && month < 13 && year>0 && day <= numDayMonth[month-1]){
-//					Van myVan = new Van(vehicleId, vehicleYear, vehicleId, vehicleId, vehicleYear, vehicleId, new DateTime(day,month,year));
-//					vehicles[vehicleCounter] = myVan;
-//					vehicleCounter++;
-//					System.out.println("A van with ID - "+vehicleId+" created.");
-//				}else{
-//					System.out.println("");
-//					System.out.println("Invalid Date");
-//					System.out.println("");
-//				}
-//			}
-//			System.out.println("Done");
-//		} 
+		if(vehicleType.equals("C_") || vehicleType.equals("V_")){
+			boolean vehicleContain = vehicles.containsKey(vehicleId);
+			if(!vehicleContain){
+				if(vehicleType.equals("C_")){
+					System.out.println("Enter number of seats:                ");
+					int vehicleSeats = addVehicleInput.nextInt();
+					addVehicleInput.nextLine();
+					
+					if(vehicleSeats == 4 || vehicleSeats == 7){
+						Car myCar = new Car(vehicleId, vehicleYear, vehicleMake, vehicleModel, vehicleSeats, "rent");
+						vehicles.put(vehicleId, myCar);
+						System.out.println("A car with ID - "+vehicleId+" created.");
+					}else {
+						System.out.println("");
+						throw new InvalidUserInput("A car can only have either 4 or 7 passenger seats");
+					}
+				}else{
+					System.out.println("Enter last maintenance date:");
+					System.out.println("Enter day:                  ");
+					int day = addVehicleInput.nextInt();
+					System.out.println("Enter month:                ");
+					int month = addVehicleInput.nextInt();
+					System.out.println("Enter year:                 ");
+					int year = addVehicleInput.nextInt();
+					
+					int[] numDayMonth = new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+					if(day>0 && day <32 && month > 0 && month < 13 && year>0 && day <= numDayMonth[month-1]){
+						Van myVan = new Van(vehicleId, vehicleYear, vehicleMake, vehicleModel, 15, "rent", new DateTime(day,month,year));
+						vehicles.put(vehicleId, myVan);
+						System.out.println("A van with ID - "+vehicleId+" created.");
+					}else{
+						System.out.println("");
+						throw new InvalidUserInput("Invalid Date");
+					}
+				}
+			}else{
+				System.out.println("");
+				throw new InvalidUserInput("Vehicle ID Already Exists: please enter a different vehicle id");
+			}
+		}else{
+			System.out.println("");
+			throw new InvalidUserInput("Invalid Vehicle ID: Vehicle ID need to be starts with C_ for car and V_ for van");
+		}
 	}
 	
 	private int genRanId(){

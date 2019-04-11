@@ -18,7 +18,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 		if(DateTime.diffDays(rentDate,today)>0){
 			if(this.getStatus().equals("rent")){
 				DateTime estiReturnDate = new DateTime(rentDate,numOfRentDay);
-					if(numOfRentDay<=14 && numOfRentDay>=2) {
+					if(numOfRentDay>=2 && numOfRentDay<=14) {
 						if(numOfRentDay<3 && (rentDate.getNameOfDay().equals("Friday") || rentDate.getNameOfDay().equals("Saturday"))){
 							System.out.println("Can can only be rented for minimum of 3 days for Friday or Saturdarday");
 							return false;

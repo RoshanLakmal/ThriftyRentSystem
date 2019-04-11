@@ -17,15 +17,36 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
-		if(this.getStatus().equals("rented") || this.getStatus().equals("maintenance")){
-			return false;
+
+		DateTime today = new DateTime();
+		if(DateTime.diffDays(rentDate,today)>0){
+			if(this.getStatus().equals("rent")){
+				DateTime estiReturnDate = new DateTime(rentDate,numOfRentDay);
+					if(numOfRentDay>=1 && numOfRentDay<=30) {
+						double rentalRate = 235 * numOfRentDay;	
+						this.setStatus("rented");
+						String recordId = this.getVehicleId() + customerId + rentDate.getEightDigitDate();
+						RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, rentalRate, 0.00);
+						System.out.println("Rental record created");
+						int listSize = this.getRentalRecord().size();
+						if(listSize==10){
+							this.getRentalRecord().removeLast();
+							this.getRentalRecord().addFirst(myRentalRecord);
+						}else{
+							this.getRentalRecord().addFirst(myRentalRecord);;
+						}
+						return true;		
+					}else{
+						System.out.println("Van can only be rented for minimum of 1 day and maximum of 30 days");
+						return false;
+					}
+			}else{
+				return false;
+			}
 		}else{
-			this.setStatus("rented");
-			new RentalRecord(customerId, rentDate, rentDate, rentDate, numOfRentDay, numOfRentDay);
-			return true;
-		}
-		// TODO Auto-generated method stub
-		
+			System.out.println("Rent date need to be a future date");
+			return false;
+		}	
 	}
 
 	@Override

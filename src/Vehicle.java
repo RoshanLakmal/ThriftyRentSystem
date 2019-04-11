@@ -25,6 +25,8 @@ public abstract class Vehicle {
 	
 	public abstract boolean rent(String customerId, DateTime rentDate, int numOfRentDay);
 	
+	public abstract boolean returnvehicle(DateTime returnDate);
+	
 	public String getVehicleId() {
 		return vehicleId;
 	}

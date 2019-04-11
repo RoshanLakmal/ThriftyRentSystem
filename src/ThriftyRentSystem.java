@@ -14,7 +14,7 @@ import util.DateTime;
 public class ThriftyRentSystem {
 	
 	HashMap<String,Vehicle> vehicles = new HashMap<>();
-	int maxVehicles = 1;
+	int maxVehicles = 4;
 	
 	public void runProgram() {
 //		DateTime today = new DateTime(12, 4, 2019);
@@ -40,19 +40,25 @@ public class ThriftyRentSystem {
 		
 		
 		
-		Car C_1 = new Car("C_1", 2000, "Toyata", "Axio", 4, "rent");
-		Car C_2 = new Car("C_2", 2008, "Honda", "Civic", 7, "rent");
-		Van V_1 = new Van("V_1", 2010, "Mazda", "MV1", 15, "rent", new DateTime(23,03,2019));
-		Van V_2 = new Van("V_2", 2015, "BMW", "K8", 15, "rent", new DateTime(02,02,2019));
-		Car C_3 = new Car("C_3", 2007, "Posh", "P1", 7, "rented");
-		Van V_3 = new Van("V_3", 1999, "Benz", "Bug", 15, "rented", new DateTime(01,02,2018));
-		
-		vehicles.put("C_1", C_1);
-		vehicles.put("C_2", C_2);
-		vehicles.put("V_1", V_1);
-		vehicles.put("V_2", V_2);
-		vehicles.put("C_3", C_3);
-		vehicles.put("V_3", V_3);
+//		Car C_1 = new Car("C_1", 2000, "Toyata", "Axio", 4, "rent");
+//		Car C_2 = new Car("C_2", 2008, "Honda", "Civic", 7, "rent");
+//		Van V_1 = new Van("V_1", 2010, "Mazda", "MV1", 15, "rent", new DateTime(23,03,2019));
+//		Van V_2 = new Van("V_2", 2015, "BMW", "K8", 15, "rent", new DateTime(02,02,2019));
+//		Car C_3 = new Car("C_3", 2007, "Posh", "P1", 7, "rented");
+////		String recordId = this.getVehicleId() + customerId + rentDate.getEightDigitDate();
+//		RentalRecord myRentalRecordCar3 = new RentalRecord("C_3_s3740472_11022011", new DateTime(20,04,2019), new DateTime(24,04,2019), null, 0.00, 0.00);
+//		C_3.getRentalRecord().addFirst(myRentalRecordCar3);
+//		Van V_3 = new Van("V_3", 1999, "Benz", "Bug", 15, "rented", new DateTime(01,02,2018));
+//		RentalRecord myRentalRecordVan3 = new RentalRecord("V_3_s3740473_12022011", new DateTime(20,04,2019), new DateTime(24,04,2019), null, 0.00, 0.00);
+//		V_3.getRentalRecord().addFirst(myRentalRecordVan3);
+//		
+//		vehicles.put("C_1", C_1);
+//		vehicles.put("C_2", C_2);
+//		vehicles.put("V_1", V_1);
+//		vehicles.put("V_2", V_2);
+//		vehicles.put("C_3", C_3);
+//		vehicles.put("V_3", V_3);
+
 //		
 //
 //		String vehicleId = "C_2";
@@ -62,6 +68,12 @@ public class ThriftyRentSystem {
 //			System.out.println("No");
 //		}
 
+//		String vehicleId = "V_3";
+//		if(vehicles.get(vehicleId).returnvehicle(new DateTime(24, 04, 2019))){
+//			System.out.println("Yes");
+//		}else{
+//			System.out.println("No");
+//		}
 		
 		while(true){
 			
@@ -86,6 +98,18 @@ public class ThriftyRentSystem {
 				case 5:
 					break;
 				case 6:
+					for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
+					    System.out.println(entry.getKey()+" : "+entry.getValue().getStatus()+" : "+entry.getValue().getNumOfSeats());
+					    for(int i=0;i<entry.getValue().getRentalRecord().size();i++){
+					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRecordId());
+					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRentDate());
+					    	System.out.println(entry.getValue().getRentalRecord().get(i).getEstiReturnDate());
+					    	System.out.println(entry.getValue().getRentalRecord().get(i).getActReturnDate());
+					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRentalFee());
+					    	System.out.println(entry.getValue().getRentalRecord().get(i).getLateFee());
+					    }
+					} 
+					System.out.println(vehicles);
 					break;
 				case 7:
 					System.exit(0);
@@ -257,10 +281,8 @@ public class ThriftyRentSystem {
 		int rentDays = rentVehicleInput.nextInt();
 		rentVehicleInput.nextLine();
 		
-		String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
-		Pattern pattern = Pattern.compile(regex); 
-		Matcher matcher = pattern.matcher(rentDate);
-		if(matcher.matches()){
+		
+		if(matchDateFormat(rentDate)){
 			int day = Integer.parseInt(rentDate.substring(0,2));
 			int month = Integer.parseInt(rentDate.substring(3,5));
 			int year = Integer.parseInt(rentDate.substring(6,rentDate.length()));
@@ -282,7 +304,45 @@ public class ThriftyRentSystem {
 		}
 	}
 	
-	private void returnVehicle(){
+	private void returnVehicle() throws InvalidPattern, NotFound{
+		Scanner returnVehicleInput = new Scanner(System.in);
 		
+		System.out.println("Enter vehicle id:                     ");
+		String vehicleId = returnVehicleInput.nextLine();
+		
+		System.out.println("Enter rent date(dd/mm/yyyy):                     ");
+		String actReturnDate = returnVehicleInput.nextLine();
+		
+		if(matchDateFormat(actReturnDate)){
+			int day = Integer.parseInt(actReturnDate.substring(0,2));
+			int month = Integer.parseInt(actReturnDate.substring(3,5));
+			int year = Integer.parseInt(actReturnDate.substring(6,actReturnDate.length()));
+			
+			DateTime returnDateFormat = new DateTime(day, month, year);
+			if(vehicles.containsKey(vehicleId)){
+				if(vehicles.get(vehicleId).returnvehicle(returnDateFormat)){
+					System.out.println("Vehicle " + vehicleId + " is now returned");
+				}else{
+					System.out.println("Vehicle " + vehicleId + " could not be returned");
+				}
+			}else{
+				System.out.println("");
+				throw new NotFound("vehicle Id not found...!");
+			}
+		}else{
+			System.out.println("");
+			throw new InvalidPattern("Date need to be dd/mm/yyyy format...!");
+		}
+	}
+	
+	private boolean matchDateFormat(String rentDate){
+		String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
+		Pattern pattern = Pattern.compile(regex); 
+		Matcher matcher = pattern.matcher(rentDate);
+		if(matcher.matches()){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

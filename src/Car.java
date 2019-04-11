@@ -24,7 +24,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 							return false;
 						}else{
 							this.setStatus("rented");
-							String recordId = this.getVehicleId() + customerId + rentDate.getEightDigitDate();
+							String recordId = this.getVehicleId() +"_"+ customerId +"_"+ rentDate.getEightDigitDate();
 							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, 0.00, 0.00);
 							System.out.println("Rental record created");
 //							int listSize = 0;
@@ -57,14 +57,15 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 	@Override
 	public boolean returnvehicle(DateTime returnDate) {
 		
-		RentalRecord latest = this.getRentalRecord().getLast();
-		DateTime rentDate = latest.getRentDate();
-		int numOfRentDay =  DateTime.diffDays(returnDate,rentDate);
-		int numlateDays = DateTime.diffDays(returnDate,latest.getEstiReturnDate());
-		int numestiDays = DateTime.diffDays(latest.getEstiReturnDate(),rentDate);
 		
-		if(numOfRentDay>0){
-			if(this.getStatus().equals("rented")){
+		
+		if(this.getStatus().equals("rented")){
+			RentalRecord latest = this.getRentalRecord().getLast();
+			DateTime rentDate = latest.getRentDate();
+			int numOfRentDay =  DateTime.diffDays(returnDate,rentDate);
+			int numlateDays = DateTime.diffDays(returnDate,latest.getEstiReturnDate());
+			int numestiDays = DateTime.diffDays(latest.getEstiReturnDate(),rentDate);
+			if(numOfRentDay>0){
 				
 				double rentalRate = 0.00;
 				double lateFee = 0.00;
@@ -93,11 +94,11 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 				
 				return true;
 			}else{
-				System.out.println("Only rented vehicles can be returned");
+				System.out.println("Return date need to be after the rent date");
 				return false;
 			}
 		}else{
-			System.out.println("Return date need to be after the rent date");
+			System.out.println("Only rented vehicles can be returned");
 			return false;
 		}
 	}

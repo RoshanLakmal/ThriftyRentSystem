@@ -23,19 +23,23 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 			if(this.getStatus().equals("rent")){
 				DateTime estiReturnDate = new DateTime(rentDate,numOfRentDay);
 					if(numOfRentDay>=1 && numOfRentDay<=30) {
-						double rentalRate = 235 * numOfRentDay;	
-						this.setStatus("rented");
-						String recordId = this.getVehicleId() + customerId + rentDate.getEightDigitDate();
-						RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, rentalRate, 0.00);
-						System.out.println("Rental record created");
-						int listSize = this.getRentalRecord().size();
-						if(listSize==10){
-							this.getRentalRecord().removeLast();
-							this.getRentalRecord().addFirst(myRentalRecord);
+						if(DateTime.diffDays(estiReturnDate,lastMaintenance)>=0 && DateTime.diffDays(lastMaintenance, rentDate) >= 0){
+							System.out.println("Renting is not allowed due to Van maintenance due on "+lastMaintenance + " please select another day...!");
+							return false;
 						}else{
-							this.getRentalRecord().addFirst(myRentalRecord);;
-						}
-						return true;		
+							this.setStatus("rented");
+							String recordId = this.getVehicleId() + "_" +customerId + "_" + rentDate.getEightDigitDate();
+							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, 0.00, 0.00);
+							System.out.println("Rental record created");
+							int listSize = this.getRentalRecord().size();
+							if(listSize==10){
+								this.getRentalRecord().removeLast();
+								this.getRentalRecord().addFirst(myRentalRecord);
+							}else{
+								this.getRentalRecord().addFirst(myRentalRecord);;
+							}
+							return true;	
+						}	
 					}else{
 						System.out.println("Van can only be rented for minimum of 1 day and maximum of 30 days");
 						return false;
@@ -51,19 +55,47 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean returnvehicle(DateTime returnDate) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		
+		if(this.getStatus().equals("rented")){
+			RentalRecord latest = this.getRentalRecord().getLast();
+			DateTime rentDate = latest.getRentDate();
+			int numOfRentDay =  DateTime.diffDays(returnDate,rentDate);
+			int numlateDays = DateTime.diffDays(returnDate,latest.getEstiReturnDate());
+			int numestiDays = DateTime.diffDays(latest.getEstiReturnDate(),rentDate);
+			if(numOfRentDay>0){
+				double rentalRate = 235 * numestiDays;	
+				double lateFee = 0.00;
+				
+				if(numlateDays>0){
+					lateFee = 299 * numlateDays;
+				}
+				
+				rentalRate += lateFee;
+				
+				this.setStatus("rent");
+				latest.setActReturnDate(returnDate);
+				latest.setLateFee(lateFee);
+				latest.setRentalFee(rentalRate);
+				
+				return true;
+			}else{
+				System.out.println("Return date need to be after the rent date");
+				return false;
+			}
+		}else{
+			System.out.println("Only rented vehicles can be returned");
+			return false;
+		}
 	}
 	
 	@Override
 	public boolean performMaintenance() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean completeMaintenance(DateTime completionDate) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

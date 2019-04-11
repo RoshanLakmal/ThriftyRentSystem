@@ -23,17 +23,9 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 							System.out.println("Can can only be rented for minimum of 3 days for Friday or Saturdarday");
 							return false;
 						}else{
-							double rentalRate = 0.00;
-							
-							if(this.getNumOfSeats() == 4){
-								rentalRate =  78 * numOfRentDay;
-							}else{
-								rentalRate =  113 * numOfRentDay;
-							}
-							
 							this.setStatus("rented");
 							String recordId = this.getVehicleId() + customerId + rentDate.getEightDigitDate();
-							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, rentalRate, 0.00);
+							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, 0.00, 0.00);
 							System.out.println("Rental record created");
 //							int listSize = 0;
 //							if(this.getRentalRecord() != null){
@@ -64,7 +56,50 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean returnvehicle(DateTime returnDate) {
-		return false;
+		
+		RentalRecord latest = this.getRentalRecord().getLast();
+		DateTime rentDate = latest.getRentDate();
+		int numOfRentDay =  DateTime.diffDays(returnDate,rentDate);
+		int numlateDays = DateTime.diffDays(returnDate,latest.getEstiReturnDate());
+		int numestiDays = DateTime.diffDays(latest.getEstiReturnDate(),rentDate);
+		
+		if(numOfRentDay>0){
+			if(this.getStatus().equals("rented")){
+				
+				double rentalRate = 0.00;
+				double lateFee = 0.00;
+				
+				if(this.getNumOfSeats() == 4){
+					rentalRate =  78 * numestiDays;
+				}else{
+					rentalRate =  113 * numestiDays;
+				}
+				
+				if(numlateDays>0){
+					if(this.getNumOfSeats() == 4){
+						lateFee =  (125/100) * 78 * numlateDays;
+					}else{
+						lateFee =  (125/100) * 113 * numlateDays;
+					}
+					
+				}
+				
+				rentalRate += lateFee;
+				
+				this.setStatus("rent");
+				latest.setActReturnDate(returnDate);
+				latest.setLateFee(lateFee);
+				latest.setRentalFee(rentalRate);
+				
+				return true;
+			}else{
+				System.out.println("Only rented vehicles can be returned");
+				return false;
+			}
+		}else{
+			System.out.println("Return date need to be after the rent date");
+			return false;
+		}
 	}
 
 	@Override

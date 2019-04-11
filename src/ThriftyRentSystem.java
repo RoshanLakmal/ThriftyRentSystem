@@ -79,6 +79,7 @@ public class ThriftyRentSystem {
 					rentVehicle();
 					break;
 				case 3:
+					returnVehicle();
 					break;
 				case 4:
 					break;
@@ -279,5 +280,9 @@ public class ThriftyRentSystem {
 			System.out.println("");
 			throw new InvalidPattern("Date need to be dd/mm/yyyy format...!");
 		}
+	}
+	
+	private void returnVehicle(){
+		
 	}
 }

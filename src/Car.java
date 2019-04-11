@@ -44,7 +44,6 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 		}else{
 			return false;
 		}
-		
 	}
 
 	@Override

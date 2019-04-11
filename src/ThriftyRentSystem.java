@@ -1,9 +1,14 @@
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import exception.InvalidPattern;
 import exception.InvalidUserInput;
-import exception.VehiclesFull;
+import exception.NotFound;
+import exception.OutOfBound;
 import util.DateTime;
 
 public class ThriftyRentSystem {
@@ -18,6 +23,45 @@ public class ThriftyRentSystem {
 //		System.out.println("test - "+test);
 //		System.out.println(DateTime.diffDays(test,today));
 ////		DateTime goodFriday = new DateTime(19, 4, 2019);
+//		String rentDate = "31/12/2001";
+//		String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
+//		Pattern pattern = Pattern.compile(regex); 
+//		Matcher matcher = pattern.matcher(rentDate);
+//		if(matcher.matches()){
+//			System.out.println("yes");
+//		}else{
+//			System.out.println("No");
+//		}
+		
+//		Scanner test = new Scanner(System.in);
+//		System.out.println("Enter vehicle id:                     ");
+		
+		
+		
+		
+		
+		Car C_1 = new Car("C_1", 2000, "Toyata", "Axio", 4, "rent");
+		Car C_2 = new Car("C_2", 2008, "Honda", "Civic", 7, "rent");
+		Van V_1 = new Van("V_1", 2010, "Mazda", "MV1", 15, "rent", new DateTime(23,03,2019));
+		Van V_2 = new Van("V_2", 2015, "BMW", "K8", 15, "rent", new DateTime(02,02,2019));
+		Car C_3 = new Car("C_3", 2007, "Posh", "P1", 7, "rented");
+		Van V_3 = new Van("V_3", 1999, "Benz", "Bug", 15, "rented", new DateTime(01,02,2018));
+		
+		vehicles.put("C_1", C_1);
+		vehicles.put("C_2", C_2);
+		vehicles.put("V_1", V_1);
+		vehicles.put("V_2", V_2);
+		vehicles.put("C_3", C_3);
+		vehicles.put("V_3", V_3);
+//		
+//
+//		String vehicleId = "C_2";
+//		if(vehicles.get(vehicleId).rent("test", new DateTime(24, 04, 2019), 4)){
+//			System.out.println("Yes");
+//		}else{
+//			System.out.println("No");
+//		}
+
 		
 		while(true){
 			
@@ -32,6 +76,7 @@ public class ThriftyRentSystem {
 					addVehicle();
 					break;
 				case 2:
+					rentVehicle();
 					break;
 				case 3:
 					break;
@@ -55,10 +100,20 @@ public class ThriftyRentSystem {
 				System.out.println("Invalid Input: Please try again...!");
 				System.out.println(e1.getMessage());
 				System.out.println("");
-			}catch(VehiclesFull e2){
+			}catch(OutOfBound e2){
 				System.out.println("");
-				System.out.println("Vehcles Limit exceeds...!");
+				System.out.println("Limit exceeds: Please try again...!");
 				System.out.println(e2.getMessage());
+				System.out.println("");
+			}catch(InvalidPattern e3){
+				System.out.println("");
+				System.out.println("Invalid pattern: Please try again...!");
+				System.out.println(e3.getMessage());
+				System.out.println("");
+			}catch(NotFound e4){
+				System.out.println("");
+				System.out.println("Not found: Please try again...!");
+				System.out.println(e4.getMessage());
 				System.out.println("");
 			}catch(Exception e){
 				System.out.println("");
@@ -114,7 +169,7 @@ public class ThriftyRentSystem {
 		System.out.println("Enter your choice:                 ");
 	}
 	
-	private void addVehicle() throws InvalidUserInput, VehiclesFull{
+	private void addVehicle() throws InvalidUserInput, OutOfBound{
 
 		Scanner addVehicleInput = new Scanner(System.in);
 
@@ -180,17 +235,49 @@ public class ThriftyRentSystem {
 			}
 		}else{
 			System.out.println("");
-			throw new VehiclesFull("Cannot add any more vehicles the system is full...!");
+			throw new OutOfBound("Cannot add any more vehicles the system is full...!");
 		}
 		
 	}
 	
-	private void rentVehicle(){
+	private void rentVehicle() throws InvalidPattern, NotFound{
+		Scanner rentVehicleInput = new Scanner(System.in);
 		
-	}
-	
-	private int genRanId(){
-		int randNum = 10000 + new Random().nextInt(9000);
-		return randNum;
+		System.out.println("Enter vehicle id:                     ");
+		String vehicleId = rentVehicleInput.nextLine();
+
+		System.out.println("Enter customer id:                     ");
+		String customerId = rentVehicleInput.nextLine();
+		
+		System.out.println("Enter rent date(dd/mm/yyyy):                     ");
+		String rentDate = rentVehicleInput.nextLine();
+		
+		System.out.println("Enter how many days?:                   ");
+		int rentDays = rentVehicleInput.nextInt();
+		rentVehicleInput.nextLine();
+		
+		String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
+		Pattern pattern = Pattern.compile(regex); 
+		Matcher matcher = pattern.matcher(rentDate);
+		if(matcher.matches()){
+			int day = Integer.parseInt(rentDate.substring(0,2));
+			int month = Integer.parseInt(rentDate.substring(3,5));
+			int year = Integer.parseInt(rentDate.substring(6,rentDate.length()));
+			
+			DateTime rentDateFormat = new DateTime(day, month, year);
+			if(vehicles.containsKey(vehicleId)){
+				if(vehicles.get(vehicleId).rent(customerId, rentDateFormat, rentDays)){
+					System.out.println("Vehicle " + vehicleId + " is now rented by customer " +customerId);
+				}else{
+					System.out.println("Vehicle " + vehicleId + " could not be rented");
+				}
+			}else{
+				System.out.println("");
+				throw new NotFound("vehicle Id not found...!");
+			}
+		}else{
+			System.out.println("");
+			throw new InvalidPattern("Date need to be dd/mm/yyyy format...!");
+		}
 	}
 }

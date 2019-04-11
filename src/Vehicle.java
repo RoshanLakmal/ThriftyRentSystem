@@ -1,5 +1,7 @@
 import java.util.LinkedList;
 
+import util.DateTime;
+
 public abstract class Vehicle {
 	
 	private String vehicleId;
@@ -18,8 +20,11 @@ public abstract class Vehicle {
 		this.model = model;
 		this.numOfSeats = numSeats;
 		this.status = vehicleStatus;
+		rentalRecord = new LinkedList<RentalRecord>();
 	}
-
+	
+	public abstract boolean rent(String customerId, DateTime rentDate, int numOfRentDay);
+	
 	public String getVehicleId() {
 		return vehicleId;
 	}

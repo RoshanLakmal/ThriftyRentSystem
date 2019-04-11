@@ -35,7 +35,12 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 							String recordId = this.getVehicleId() + customerId + rentDate.getEightDigitDate();
 							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, rentalRate, 0.00);
 							System.out.println("Rental record created");
+//							int listSize = 0;
+//							if(this.getRentalRecord() != null){
+//								listSize = this.getRentalRecord().size();
+//							}
 							int listSize = this.getRentalRecord().size();
+									
 							if(listSize==10){
 								this.getRentalRecord().removeLast();
 								this.getRentalRecord().addFirst(myRentalRecord);
@@ -59,10 +64,6 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean returnvehicle(DateTime returnDate) {
-//		int dayDiff = DateTime.diffDays(endDate, startDate)
-//		if(){
-//			
-//		}
 		return false;
 	}
 

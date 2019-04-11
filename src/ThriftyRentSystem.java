@@ -12,7 +12,12 @@ public class ThriftyRentSystem {
 	int maxVehicles = 1;
 	
 	public void runProgram() {
-
+//		DateTime today = new DateTime(12, 4, 2019);
+//		DateTime test = new DateTime(11, 4, 2019);
+//		System.out.println("Today - "+today);
+//		System.out.println("test - "+test);
+//		System.out.println(DateTime.diffDays(test,today));
+////		DateTime goodFriday = new DateTime(19, 4, 2019);
 		
 		while(true){
 			

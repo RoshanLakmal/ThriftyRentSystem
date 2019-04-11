@@ -40,24 +40,7 @@ public class ThriftyRentSystem {
 		
 		
 		
-//		Car C_1 = new Car("C_1", 2000, "Toyata", "Axio", 4, "rent");
-//		Car C_2 = new Car("C_2", 2008, "Honda", "Civic", 7, "rent");
-//		Van V_1 = new Van("V_1", 2010, "Mazda", "MV1", 15, "rent", new DateTime(23,03,2019));
-//		Van V_2 = new Van("V_2", 2015, "BMW", "K8", 15, "rent", new DateTime(02,02,2019));
-//		Car C_3 = new Car("C_3", 2007, "Posh", "P1", 7, "rented");
-////		String recordId = this.getVehicleId() + customerId + rentDate.getEightDigitDate();
-//		RentalRecord myRentalRecordCar3 = new RentalRecord("C_3_s3740472_11022011", new DateTime(20,04,2019), new DateTime(24,04,2019), null, 0.00, 0.00);
-//		C_3.getRentalRecord().addFirst(myRentalRecordCar3);
-//		Van V_3 = new Van("V_3", 1999, "Benz", "Bug", 15, "rented", new DateTime(01,02,2018));
-//		RentalRecord myRentalRecordVan3 = new RentalRecord("V_3_s3740473_12022011", new DateTime(20,04,2019), new DateTime(24,04,2019), null, 0.00, 0.00);
-//		V_3.getRentalRecord().addFirst(myRentalRecordVan3);
-//		
-//		vehicles.put("C_1", C_1);
-//		vehicles.put("C_2", C_2);
-//		vehicles.put("V_1", V_1);
-//		vehicles.put("V_2", V_2);
-//		vehicles.put("C_3", C_3);
-//		vehicles.put("V_3", V_3);
+ 
 
 //		
 //
@@ -94,8 +77,10 @@ public class ThriftyRentSystem {
 					returnVehicle();
 					break;
 				case 4:
+					maintainVehicle();
 					break;
 				case 5:
+					completeVehicleMaintenance();
 					break;
 				case 6:
 					for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
@@ -335,6 +320,45 @@ public class ThriftyRentSystem {
 		}
 	}
 	
+	private void maintainVehicle() throws NotFound{
+		Scanner  maintainVehicleInput = new Scanner(System.in);
+		
+		System.out.println("Enter vehicle id:                     ");
+		String vehicleId = maintainVehicleInput.nextLine();
+		
+		if(vehicles.containsKey(vehicleId)){
+			if(vehicles.get(vehicleId).performMaintenance()){
+				System.out.println("Vehicle "+vehicleId+" is now under maintenance");
+			}else{
+				System.out.println("Can only maintain vehicles which are available in the ThriftyRent");
+			}
+		}else{
+			System.out.println("");
+			throw new NotFound("vehicle Id not found...!");
+		}
+	}
+	
+	private void completeVehicleMaintenance() throws NotFound{
+		Scanner completeVehicleMainInput = new Scanner(System.in);
+		
+		System.out.println("Enter vehicle id:                     ");
+		String vehicleId = completeVehicleMainInput.nextLine();
+		
+		if(vehicles.containsKey(vehicleId)){
+			if(vehicles.get(vehicleId).completeMaintenance(completionDate)){
+				System.out.println("Vehicle "+vehicleId+" is now under maintenance");
+			}else{
+				System.out.println("Can only maintain vehicles which are available in the ThriftyRent");
+			}
+		}else{
+			System.out.println("");
+			throw new NotFound("vehicle Id not found...!");
+		}
+
+		System.out.println("Enter rent date(dd/mm/yyyy):                     ");
+		String actReturnDate = completeVehicleMainInput.nextLine();
+	}
+
 	private boolean matchDateFormat(String rentDate){
 		String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
 		Pattern pattern = Pattern.compile(regex); 

@@ -26,7 +26,6 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 							this.setStatus("rented");
 							String recordId = this.getVehicleId() +"_"+ customerId +"_"+ rentDate.getEightDigitDate();
 							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, 0.00, 0.00);
-							System.out.println("Rental record created");
 //							int listSize = 0;
 //							if(this.getRentalRecord() != null){
 //								listSize = this.getRentalRecord().size();
@@ -105,14 +104,26 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean performMaintenance() {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.getStatus().equals("rent")){
+			this.setStatus("maintenance");
+			System.out.println("Vehicle "+this.getVehicleId()+" is now under maintenance");
+			return true;
+		}else{
+			System.out.println("Can only maintain vehicles which are available in the ThriftyRent");
+			return false;
+		}
 	}
 
 	@Override
 	public boolean completeMaintenance(DateTime completionDate) {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.getStatus().equals("maintenance")){
+			this.setStatus("rent");
+			System.out.println("Vehicle "+this.getVehicleId()+" maintenance complete");
+			return true;
+		}else{
+			System.out.println("Can only complete maintain vehicles that are under maintenance");
+			return false;
+		}
 	}
 	
 	

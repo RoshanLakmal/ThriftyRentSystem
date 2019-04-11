@@ -27,6 +27,10 @@ public abstract class Vehicle {
 	
 	public abstract boolean returnvehicle(DateTime returnDate);
 	
+	public abstract boolean performMaintenance();
+	
+	public abstract boolean completeMaintenance(DateTime completionDate);
+	
 	public String getVehicleId() {
 		return vehicleId;
 	}

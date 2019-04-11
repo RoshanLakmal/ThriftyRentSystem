@@ -91,12 +91,26 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 	
 	@Override
 	public boolean performMaintenance() {
-		return false;
+		if(this.getStatus().equals("rent")){
+			this.setStatus("maintenance");
+			System.out.println("Vehicle "+this.getVehicleId()+" is now under maintenance");
+			return true;
+		}else{
+			System.out.println("Can only maintain vehicles which are available in the ThriftyRent");
+			return false;
+		}
 	}
 
 	@Override
 	public boolean completeMaintenance(DateTime completionDate) {
-		return false;
+		if(this.getStatus().equals("maintenance")){
+			this.setStatus("rent");
+			System.out.println("Vehicle "+this.getVehicleId()+" maintenance complete");
+			return true;
+		}else{
+			System.out.println("Can only complete maintain vehicles that are under maintenance");
+			return false;
+		}
 	}
 	
 	@Override

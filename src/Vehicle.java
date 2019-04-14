@@ -88,7 +88,6 @@ public abstract class Vehicle {
 	}
 
 	public String toString() {
-		//"vehicleId:year:make:model:numOfSeats:status"
 		return vehicleId+":"+year+":"+make+":"+model+":"+numOfSeats+":"+status;
 	}
 	
@@ -121,6 +120,5 @@ public abstract class Vehicle {
 		}
 		return details;
 	}
-	
 	
 }

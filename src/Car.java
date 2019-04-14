@@ -106,10 +106,8 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 	public boolean performMaintenance() {
 		if(this.getStatus().equals("rent")){
 			this.setStatus("maintenance");
-			System.out.println("Vehicle "+this.getVehicleId()+" is now under maintenance");
 			return true;
 		}else{
-			System.out.println("Can only maintain vehicles which are available in the ThriftyRent");
 			return false;
 		}
 	}
@@ -117,9 +115,15 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 	@Override
 	public boolean completeMaintenance(DateTime completionDate) {
 		if(this.getStatus().equals("maintenance")){
-			this.setStatus("rent");
-			System.out.println("Vehicle "+this.getVehicleId()+" maintenance complete");
-			return true;
+			DateTime today = new DateTime();
+			if(DateTime.diffDays(completionDate,today)>=0){
+				this.setStatus("rent");
+				System.out.println("Vehicle "+this.getVehicleId()+" maintenance complete");
+				return true;
+			}else{
+				System.out.println("Rent date need to be a future date");
+				return false;
+			}
 		}else{
 			System.out.println("Can only complete maintain vehicles that are under maintenance");
 			return false;

@@ -14,7 +14,7 @@ import util.DateTime;
 public class ThriftyRentSystem {
 	
 	HashMap<String,Vehicle> vehicles = new HashMap<>();
-	int maxVehicles = 4;
+	int maxVehicles = 50;
 	
 	public void runProgram() {
 //		DateTime today = new DateTime(12, 4, 2019);
@@ -35,28 +35,27 @@ public class ThriftyRentSystem {
 		
 //		Scanner test = new Scanner(System.in);
 //		System.out.println("Enter vehicle id:                     ");
-		
-		
-		
-		
-		
- 
-
-//		
-//
 //		String vehicleId = "C_2";
 //		if(vehicles.get(vehicleId).rent("test", new DateTime(24, 04, 2019), 4)){
 //			System.out.println("Yes");
 //		}else{
 //			System.out.println("No");
 //		}
-
+//
 //		String vehicleId = "V_3";
 //		if(vehicles.get(vehicleId).returnvehicle(new DateTime(24, 04, 2019))){
 //			System.out.println("Yes");
 //		}else{
 //			System.out.println("No");
-//		}
+//		}		
+		
+		
+		
+		
+ 
+
+
+		
 		
 		while(true){
 			
@@ -83,18 +82,19 @@ public class ThriftyRentSystem {
 					completeVehicleMaintenance();
 					break;
 				case 6:
-					for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
-					    System.out.println(entry.getKey()+" : "+entry.getValue().getStatus()+" : "+entry.getValue().getNumOfSeats());
-					    for(int i=0;i<entry.getValue().getRentalRecord().size();i++){
-					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRecordId());
-					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRentDate());
-					    	System.out.println(entry.getValue().getRentalRecord().get(i).getEstiReturnDate());
-					    	System.out.println(entry.getValue().getRentalRecord().get(i).getActReturnDate());
-					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRentalFee());
-					    	System.out.println(entry.getValue().getRentalRecord().get(i).getLateFee());
-					    }
-					} 
-					System.out.println(vehicles);
+					displayAllVehicles();
+//					for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
+//					    System.out.println(entry.getKey()+" : "+entry.getValue().getStatus()+" : "+entry.getValue().getNumOfSeats());
+//					    for(int i=0;i<entry.getValue().getRentalRecord().size();i++){
+//					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRecordId());
+//					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRentDate());
+//					    	System.out.println(entry.getValue().getRentalRecord().get(i).getEstiReturnDate());
+//					    	System.out.println(entry.getValue().getRentalRecord().get(i).getActReturnDate());
+//					    	System.out.println(entry.getValue().getRentalRecord().get(i).getRentalFee());
+//					    	System.out.println(entry.getValue().getRentalRecord().get(i).getLateFee());
+//					    }
+//					} 
+//					System.out.println(vehicles);
 					break;
 				case 7:
 					System.exit(0);
@@ -132,6 +132,7 @@ public class ThriftyRentSystem {
 			}
 			
 		}
+		
 		/*
 //		double value = 200.3456;
 //		System.out.printf("Value: %.2f", value);
@@ -166,6 +167,17 @@ public class ThriftyRentSystem {
 				 */
 	}
 	
+	private void displayAllVehicles() {
+		for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
+			System.out.println(entry.getValue().getDetails());
+//		    System.out.println(entry.getKey()+" : "+entry.getValue().getStatus()+" : "+entry.getValue().getNumOfSeats());
+//		    for(int i=0;i<entry.getValue().getRentalRecord().size();i++){
+//		    	
+//		    }
+		} 
+//		System.out.println(vehicles);
+	}
+
 	private void systemMenu(){
 		System.out.println("****  ThriftyRent SYSTEM MENU  ****");
 		System.out.println("");
@@ -179,7 +191,7 @@ public class ThriftyRentSystem {
 		System.out.println("Enter your choice:                 ");
 	}
 	
-	private void addVehicle() throws InvalidUserInput, OutOfBound{
+	private void addVehicle() throws InvalidUserInput, OutOfBound, InvalidPattern{
 
 		Scanner addVehicleInput = new Scanner(System.in);
 
@@ -218,21 +230,35 @@ public class ThriftyRentSystem {
 						}
 					}else{
 						System.out.println("Enter last maintenance date:");
-						System.out.println("Enter day:                  ");
-						int day = addVehicleInput.nextInt();
-						System.out.println("Enter month:                ");
-						int month = addVehicleInput.nextInt();
-						System.out.println("Enter year:                 ");
-						int year = addVehicleInput.nextInt();
+//						System.out.println("Enter day:                  ");
+//						int day = addVehicleInput.nextInt();
+//						System.out.println("Enter month:                ");
+//						int month = addVehicleInput.nextInt();
+//						System.out.println("Enter year:                 ");
+//						int year = addVehicleInput.nextInt();
+//						int[] numDayMonth = new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+//						if(day>0 && day <32 && month > 0 && month < 13 && year>0 && day <= numDayMonth[month-1]){
+//							Van myVan = new Van(vehicleId, vehicleYear, vehicleMake, vehicleModel, 15, "rent", new DateTime(day,month,year));
+//							vehicles.put(vehicleId, myVan);
+//							System.out.println("A van with ID - "+vehicleId+" created.");
+//						}else{
+//							System.out.println("");
+//							throw new InvalidUserInput("Invalid Date");
+//						}
+						String lastMaintenance = addVehicleInput.nextLine();
 						
-						int[] numDayMonth = new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-						if(day>0 && day <32 && month > 0 && month < 13 && year>0 && day <= numDayMonth[month-1]){
-							Van myVan = new Van(vehicleId, vehicleYear, vehicleMake, vehicleModel, 15, "rent", new DateTime(day,month,year));
+						if(matchDateFormat(lastMaintenance)){
+							int day = Integer.parseInt(lastMaintenance.substring(0,2));
+							int month = Integer.parseInt(lastMaintenance.substring(3,5));
+							int year = Integer.parseInt(lastMaintenance.substring(6,lastMaintenance.length()));
+							
+							DateTime lastMaintDateFormat = new DateTime(day, month, year);
+							Van myVan = new Van(vehicleId, vehicleYear, vehicleMake, vehicleModel, 15, "rent", lastMaintDateFormat);
 							vehicles.put(vehicleId, myVan);
 							System.out.println("A van with ID - "+vehicleId+" created.");
 						}else{
 							System.out.println("");
-							throw new InvalidUserInput("Invalid Date");
+							throw new InvalidPattern("Date need to be dd/mm/yyyy format...!");
 						}
 					}
 				}else{
@@ -330,7 +356,7 @@ public class ThriftyRentSystem {
 			if(vehicles.get(vehicleId).performMaintenance()){
 				System.out.println("Vehicle "+vehicleId+" is now under maintenance");
 			}else{
-				System.out.println("Can only maintain vehicles which are available in the ThriftyRent");
+				System.out.println("Vehicle " + vehicleId + " could not be maintained");
 			}
 		}else{
 			System.out.println("");
@@ -338,25 +364,37 @@ public class ThriftyRentSystem {
 		}
 	}
 	
-	private void completeVehicleMaintenance() throws NotFound{
+	private void completeVehicleMaintenance() throws NotFound, InvalidPattern{
 		Scanner completeVehicleMainInput = new Scanner(System.in);
 		
 		System.out.println("Enter vehicle id:                     ");
 		String vehicleId = completeVehicleMainInput.nextLine();
 		
-		if(vehicles.containsKey(vehicleId)){
-			if(vehicles.get(vehicleId).completeMaintenance(completionDate)){
-				System.out.println("Vehicle "+vehicleId+" is now under maintenance");
+		System.out.println("Enter rent date(dd/mm/yyyy):                     ");
+		String actReturnDate = completeVehicleMainInput.nextLine();
+		
+		
+		if(matchDateFormat(actReturnDate)){
+			int day = Integer.parseInt(actReturnDate.substring(0,2));
+			int month = Integer.parseInt(actReturnDate.substring(3,5));
+			int year = Integer.parseInt(actReturnDate.substring(6,actReturnDate.length()));
+			
+			DateTime returnDateFormat = new DateTime(day, month, year);
+			if(vehicles.containsKey(vehicleId)){
+				if(vehicles.get(vehicleId).completeMaintenance(returnDateFormat)){
+					System.out.println("Vehicle " + vehicleId + " has all maintainance completed and ready for rent");
+				}else{
+					System.out.println("Vehicle " + vehicleId + " could not complete maintenance");
+				}
 			}else{
-				System.out.println("Can only maintain vehicles which are available in the ThriftyRent");
+				System.out.println("");
+				throw new NotFound("vehicle Id not found...!");
 			}
 		}else{
 			System.out.println("");
-			throw new NotFound("vehicle Id not found...!");
+			throw new InvalidPattern("Date need to be dd/mm/yyyy format...!");
 		}
-
-		System.out.println("Enter rent date(dd/mm/yyyy):                     ");
-		String actReturnDate = completeVehicleMainInput.nextLine();
+		
 	}
 
 	private boolean matchDateFormat(String rentDate){

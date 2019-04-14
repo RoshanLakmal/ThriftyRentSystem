@@ -20,7 +20,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 
 		DateTime today = new DateTime();
 		if(DateTime.diffDays(rentDate,today)>0){
-			if(this.getStatus().equals("rent")){
+			if(this.getStatus().equals("Available")){
 				DateTime estiReturnDate = new DateTime(rentDate,numOfRentDay);
 					if(numOfRentDay>=1 && numOfRentDay<=30) {
 						if(DateTime.diffDays(estiReturnDate,lastMaintenance)>=0 && DateTime.diffDays(lastMaintenance, rentDate) >= 0){
@@ -73,7 +73,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 				
 				rentalRate += lateFee;
 				
-				this.setStatus("rent");
+				this.setStatus("Available");
 				latest.setActReturnDate(returnDate);
 				latest.setLateFee(lateFee);
 				latest.setRentalFee(rentalRate);
@@ -91,7 +91,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 	
 	@Override
 	public boolean performMaintenance() {
-		if(this.getStatus().equals("rent")){
+		if(this.getStatus().equals("Available")){
 			this.setStatus("maintenance");
 			return true;
 		}else{
@@ -104,7 +104,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 		if(this.getStatus().equals("maintenance")){
 			DateTime today = new DateTime();
 			if(DateTime.diffDays(completionDate,today)>=0){
-				this.setStatus("rent");
+				this.setStatus("Available");
 				this.lastMaintenance = completionDate;
 				System.out.println("Vehicle "+this.getVehicleId()+" maintenance complete");
 				return true;

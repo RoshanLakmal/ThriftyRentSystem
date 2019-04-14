@@ -16,7 +16,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
 		DateTime today = new DateTime();
 		if(DateTime.diffDays(rentDate,today)>0){
-			if(this.getStatus().equals("rent")){
+			if(this.getStatus().equals("Available")){
 				DateTime estiReturnDate = new DateTime(rentDate,numOfRentDay);
 					if(numOfRentDay>=2 && numOfRentDay<=14) {
 						if(numOfRentDay<3 && (rentDate.getNameOfDay().equals("Friday") || rentDate.getNameOfDay().equals("Saturday"))){
@@ -86,7 +86,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 				
 				rentalRate += lateFee;
 				
-				this.setStatus("rent");
+				this.setStatus("Available");
 				latest.setActReturnDate(returnDate);
 				latest.setLateFee(lateFee);
 				latest.setRentalFee(rentalRate);
@@ -104,7 +104,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean performMaintenance() {
-		if(this.getStatus().equals("rent")){
+		if(this.getStatus().equals("Available")){
 			this.setStatus("maintenance");
 			return true;
 		}else{
@@ -117,7 +117,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 		if(this.getStatus().equals("maintenance")){
 			DateTime today = new DateTime();
 			if(DateTime.diffDays(completionDate,today)>=0){
-				this.setStatus("rent");
+				this.setStatus("Available");
 				System.out.println("Vehicle "+this.getVehicleId()+" maintenance complete");
 				return true;
 			}else{

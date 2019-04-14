@@ -221,30 +221,15 @@ public class ThriftyRentSystem {
 						addVehicleInput.nextLine();
 						
 						if(vehicleSeats == 4 || vehicleSeats == 7){
-							Car myCar = new Car(vehicleId, vehicleYear, vehicleMake, vehicleModel, vehicleSeats, "rent");
+							Car myCar = new Car(vehicleId, vehicleYear, vehicleMake, vehicleModel, vehicleSeats, "Available");
 							vehicles.put(vehicleId, myCar);
-							System.out.println("A car with ID - "+vehicleId+" created.");
+							System.out.println(myCar.toString());
 						}else {
 							System.out.println("");
 							throw new InvalidUserInput("A car can only have either 4 or 7 passenger seats");
 						}
 					}else{
 						System.out.println("Enter last maintenance date:");
-//						System.out.println("Enter day:                  ");
-//						int day = addVehicleInput.nextInt();
-//						System.out.println("Enter month:                ");
-//						int month = addVehicleInput.nextInt();
-//						System.out.println("Enter year:                 ");
-//						int year = addVehicleInput.nextInt();
-//						int[] numDayMonth = new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-//						if(day>0 && day <32 && month > 0 && month < 13 && year>0 && day <= numDayMonth[month-1]){
-//							Van myVan = new Van(vehicleId, vehicleYear, vehicleMake, vehicleModel, 15, "rent", new DateTime(day,month,year));
-//							vehicles.put(vehicleId, myVan);
-//							System.out.println("A van with ID - "+vehicleId+" created.");
-//						}else{
-//							System.out.println("");
-//							throw new InvalidUserInput("Invalid Date");
-//						}
 						String lastMaintenance = addVehicleInput.nextLine();
 						
 						if(matchDateFormat(lastMaintenance)){
@@ -253,9 +238,9 @@ public class ThriftyRentSystem {
 							int year = Integer.parseInt(lastMaintenance.substring(6,lastMaintenance.length()));
 							
 							DateTime lastMaintDateFormat = new DateTime(day, month, year);
-							Van myVan = new Van(vehicleId, vehicleYear, vehicleMake, vehicleModel, 15, "rent", lastMaintDateFormat);
+							Van myVan = new Van(vehicleId, vehicleYear, vehicleMake, vehicleModel, 15, "Available", lastMaintDateFormat);
 							vehicles.put(vehicleId, myVan);
-							System.out.println("A van with ID - "+vehicleId+" created.");
+							System.out.println(myVan.toString());
 						}else{
 							System.out.println("");
 							throw new InvalidPattern("Date need to be dd/mm/yyyy format...!");

@@ -82,7 +82,7 @@ public class ThriftyRentSystem {
 					completeVehicleMaintenance();
 					break;
 				case 6:
-					displayAllVehicles();
+					displayAllVehiclesFormat();
 //					for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
 //					    System.out.println(entry.getKey()+" : "+entry.getValue().getStatus()+" : "+entry.getValue().getNumOfSeats());
 //					    for(int i=0;i<entry.getValue().getRentalRecord().size();i++){
@@ -167,16 +167,7 @@ public class ThriftyRentSystem {
 				 */
 	}
 	
-	private void displayAllVehicles() {
-		for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
-			System.out.println(entry.getValue().getDetails());
-//		    System.out.println(entry.getKey()+" : "+entry.getValue().getStatus()+" : "+entry.getValue().getNumOfSeats());
-//		    for(int i=0;i<entry.getValue().getRentalRecord().size();i++){
-//		    	
-//		    }
-		} 
-//		System.out.println(vehicles);
-	}
+
 
 	private void systemMenu(){
 		System.out.println("****  ThriftyRent SYSTEM MENU  ****");
@@ -229,7 +220,7 @@ public class ThriftyRentSystem {
 							throw new InvalidUserInput("A car can only have either 4 or 7 passenger seats");
 						}
 					}else{
-						System.out.println("Enter last maintenance date:");
+						System.out.println("Enter last maintenance date(dd/mm/yyyy):");
 						String lastMaintenance = addVehicleInput.nextLine();
 						
 						if(matchDateFormat(lastMaintenance)){
@@ -262,6 +253,7 @@ public class ThriftyRentSystem {
 	}
 	
 	private void rentVehicle() throws InvalidPattern, NotFound{
+		displayAllVehiclesAvailable("Available");
 		Scanner rentVehicleInput = new Scanner(System.in);
 		
 		System.out.println("Enter vehicle id:                     ");
@@ -301,12 +293,13 @@ public class ThriftyRentSystem {
 	}
 	
 	private void returnVehicle() throws InvalidPattern, NotFound{
+		displayAllVehiclesAvailable("Rented");
 		Scanner returnVehicleInput = new Scanner(System.in);
 		
 		System.out.println("Enter vehicle id:                     ");
 		String vehicleId = returnVehicleInput.nextLine();
 		
-		System.out.println("Enter rent date(dd/mm/yyyy):                     ");
+		System.out.println("Enter return date(dd/mm/yyyy):                     ");
 		String actReturnDate = returnVehicleInput.nextLine();
 		
 		if(matchDateFormat(actReturnDate)){
@@ -332,6 +325,7 @@ public class ThriftyRentSystem {
 	}
 	
 	private void maintainVehicle() throws NotFound{
+		displayAllVehiclesAvailable("Available");
 		Scanner  maintainVehicleInput = new Scanner(System.in);
 		
 		System.out.println("Enter vehicle id:                     ");
@@ -350,12 +344,13 @@ public class ThriftyRentSystem {
 	}
 	
 	private void completeVehicleMaintenance() throws NotFound, InvalidPattern{
+		displayAllVehiclesAvailable("Maintenance");
 		Scanner completeVehicleMainInput = new Scanner(System.in);
 		
 		System.out.println("Enter vehicle id:                     ");
 		String vehicleId = completeVehicleMainInput.nextLine();
 		
-		System.out.println("Enter rent date(dd/mm/yyyy):                     ");
+		System.out.println("Enter complete maintenance date(dd/mm/yyyy):                     ");
 		String actReturnDate = completeVehicleMainInput.nextLine();
 		
 		
@@ -391,5 +386,24 @@ public class ThriftyRentSystem {
 		}else{
 			return false;
 		}
+	}
+	
+	private void displayAllVehiclesFormat() {
+		for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
+			System.out.println(entry.getValue().getDetails());
+//		    System.out.println(entry.getKey()+" : "+entry.getValue().getStatus()+" : "+entry.getValue().getNumOfSeats());
+//		    for(int i=0;i<entry.getValue().getRentalRecord().size();i++){
+//		    	
+//		    }
+		} 
+//		System.out.println(vehicles);
+	}
+	
+	private void displayAllVehiclesAvailable(String status) {
+		for (HashMap.Entry<String,Vehicle> entry : vehicles.entrySet()) {
+			if(entry.getValue().getStatus().equals(status)){
+				System.out.println(entry.getValue().toString());
+			}
+		} 
 	}
 }

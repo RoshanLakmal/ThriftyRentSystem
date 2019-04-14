@@ -15,7 +15,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 	@Override
 	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
 		DateTime today = new DateTime();
-		if(DateTime.diffDays(rentDate,today)>0){
+		if(DateTime.diffDays(rentDate,today)>=0){
 			if(this.getStatus().equals("Available")){
 				DateTime estiReturnDate = new DateTime(rentDate,numOfRentDay);
 					if(numOfRentDay>=2 && numOfRentDay<=14) {
@@ -23,7 +23,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 							System.out.println("Can can only be rented for minimum of 3 days for Friday or Saturdarday");
 							return false;
 						}else{
-							this.setStatus("rented");
+							this.setStatus("Rented");
 							String recordId = this.getVehicleId() +"_"+ customerId +"_"+ rentDate.getEightDigitDate();
 							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, 0.00, 0.00);
 //							int listSize = 0;
@@ -36,7 +36,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 								this.getRentalRecord().removeLast();
 								this.getRentalRecord().addFirst(myRentalRecord);
 							}else{
-								this.getRentalRecord().addFirst(myRentalRecord);;
+								this.getRentalRecord().addFirst(myRentalRecord);
 							}
 							return true;	
 						}		
@@ -58,8 +58,8 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 		
 		
 		
-		if(this.getStatus().equals("rented")){
-			RentalRecord latest = this.getRentalRecord().getLast();
+		if(this.getStatus().equals("Rented")){
+			RentalRecord latest = this.getRentalRecord().getFirst();
 			DateTime rentDate = latest.getRentDate();
 			int numOfRentDay =  DateTime.diffDays(returnDate,rentDate);
 			int numlateDays = DateTime.diffDays(returnDate,latest.getEstiReturnDate());
@@ -77,14 +77,12 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 				
 				if(numlateDays>0){
 					if(this.getNumOfSeats() == 4){
-						lateFee =  (125/100) * 78 * numlateDays;
+						lateFee =  1.25 * 78 * numlateDays;
 					}else{
-						lateFee =  (125/100) * 113 * numlateDays;
+						lateFee =  1.25 * 113 * numlateDays;
 					}
 					
 				}
-				
-				rentalRate += lateFee;
 				
 				this.setStatus("Available");
 				latest.setActReturnDate(returnDate);
@@ -105,7 +103,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 	@Override
 	public boolean performMaintenance() {
 		if(this.getStatus().equals("Available")){
-			this.setStatus("maintenance");
+			this.setStatus("Maintenance");
 			return true;
 		}else{
 			return false;
@@ -114,7 +112,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean completeMaintenance(DateTime completionDate) {
-		if(this.getStatus().equals("maintenance")){
+		if(this.getStatus().equals("Maintenance")){
 			DateTime today = new DateTime();
 			if(DateTime.diffDays(completionDate,today)>=0){
 				this.setStatus("Available");

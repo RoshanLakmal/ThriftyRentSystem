@@ -10,10 +10,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 		this.lastMaintenance = lastMaintenance;
 	}
 
-	@Override
-	public String toString() {
-		return getVehicleId()+":"+getYear()+":"+getMake()+":"+getModel()+":"+getNumOfSeats()+":"+getStatus()+":"+lastMaintenance;
-	}
+
 
 	@Override
 	public boolean rent(String customerId, DateTime rentDate, int numOfRentDay) {
@@ -27,7 +24,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 							System.out.println("Renting is not allowed due to Van maintenance due on "+lastMaintenance + " please select another day...!");
 							return false;
 						}else{
-							this.setStatus("rented");
+							this.setStatus("Rented");
 							String recordId = this.getVehicleId() + "_" +customerId + "_" + rentDate.getEightDigitDate();
 							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, 0.00, 0.00);
 							System.out.println("Rental record created");
@@ -57,8 +54,8 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 	public boolean returnvehicle(DateTime returnDate) {
 		
 		
-		if(this.getStatus().equals("rented")){
-			RentalRecord latest = this.getRentalRecord().getLast();
+		if(this.getStatus().equals("Rented")){
+			RentalRecord latest = this.getRentalRecord().getFirst();
 			DateTime rentDate = latest.getRentDate();
 			int numOfRentDay =  DateTime.diffDays(returnDate,rentDate);
 			int numlateDays = DateTime.diffDays(returnDate,latest.getEstiReturnDate());
@@ -70,8 +67,6 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 				if(numlateDays>0){
 					lateFee = 299 * numlateDays;
 				}
-				
-				rentalRate += lateFee;
 				
 				this.setStatus("Available");
 				latest.setActReturnDate(returnDate);
@@ -92,7 +87,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 	@Override
 	public boolean performMaintenance() {
 		if(this.getStatus().equals("Available")){
-			this.setStatus("maintenance");
+			this.setStatus("Maintenance");
 			return true;
 		}else{
 			return false;
@@ -101,7 +96,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 
 	@Override
 	public boolean completeMaintenance(DateTime completionDate) {
-		if(this.getStatus().equals("maintenance")){
+		if(this.getStatus().equals("Maintenance")){
 			DateTime today = new DateTime();
 			if(DateTime.diffDays(completionDate,today)>=0){
 				this.setStatus("Available");
@@ -119,6 +114,11 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 	}
 	
 	@Override
+	public String toString() {
+		return getVehicleId()+":"+getYear()+":"+getMake()+":"+getModel()+":"+getNumOfSeats()+":"+getStatus()+":"+lastMaintenance;
+	}
+	
+	@Override
 	public String getDetails() {
 		String details = 
 				"Vehicle ID:     "+getVehicleId()+"\n"+
@@ -132,7 +132,7 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 			details += "RENTAL RECORD:         "+"empty";
 		}else{
 			details += "RENTAL RECORD:         "+"\n";
-			for(int i =getRentalRecord().size()-1 ; i>0;i--){
+			for(int i = 0; i <getRentalRecord().size();i++){
 				details += "Record ID:         "+getRentalRecord().get(i).getRecordId()+"\n"+
 						   "Rent Date:         "+getRentalRecord().get(i).getRentDate()+"\n"+
 						   "Estimated Return Date:         "+getRentalRecord().get(i).getEstiReturnDate()+"\n";

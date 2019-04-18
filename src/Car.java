@@ -26,10 +26,7 @@ public class Car extends Vehicle implements Rentable,Maintainable{
 							this.setStatus("Rented");
 							String recordId = this.getVehicleId() +"_"+ customerId +"_"+ rentDate.getEightDigitDate();
 							RentalRecord myRentalRecord = new RentalRecord(recordId, rentDate, estiReturnDate, null, 0.00, 0.00);
-//							int listSize = 0;
-//							if(this.getRentalRecord() != null){
-//								listSize = this.getRentalRecord().size();
-//							}
+
 							int listSize = this.getRentalRecord().size();
 									
 							if(listSize==10){

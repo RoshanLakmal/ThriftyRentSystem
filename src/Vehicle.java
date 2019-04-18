@@ -104,17 +104,8 @@ public abstract class Vehicle {
 		}else{
 			details += "RENTAL RECORD:         "+"\n";
 			for(int i = 0; i <rentalRecord.size();i++){
-				details += "Record ID:         "+rentalRecord.get(i).getRecordId()+"\n"+
-						   "Rent Date:         "+rentalRecord.get(i).getRentDate()+"\n"+
-						   "Estimated Return Date:         "+rentalRecord.get(i).getEstiReturnDate()+"\n";
-				if(rentalRecord.get(i).getRentalFee()==0){
-					details += "-------------------------------------------------------------------"+"\n";
-				}else{
-					details += "Actual Return Date:         "+rentalRecord.get(i).getActReturnDate()+"\n"+
-					           "Rental Fee:         "+rentalRecord.get(i).getRentalFee()+"\n"+
-					           "Late Fee:         "+rentalRecord.get(i).getLateFee()+"\n"+
-					           "-------------------------------------------------------------------"+"\n";
-				}
+				details += rentalRecord.get(i).getDetails();
+				details += "-------------------------------------------------------------------"+"\n";
 			}
 		}
 		return details;

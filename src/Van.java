@@ -19,8 +19,9 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 		if(DateTime.diffDays(rentDate,today)>0){
 			if(this.getStatus().equals("Available")){
 				DateTime estiReturnDate = new DateTime(rentDate,numOfRentDay);
+				DateTime nextMaint = new DateTime(lastMaintenance,12);
 					if(numOfRentDay>=1 && numOfRentDay<=30) {
-						if(DateTime.diffDays(estiReturnDate,lastMaintenance)>=0 && DateTime.diffDays(lastMaintenance, rentDate) >= 0){
+						if(DateTime.diffDays(estiReturnDate,nextMaint)>=0){
 							System.out.println("Renting is not allowed due to Van maintenance due on "+lastMaintenance + " please select another day...!");
 							return false;
 						}else{
@@ -121,28 +122,27 @@ public class Van extends Vehicle implements Rentable,Maintainable{
 	@Override
 	public String getDetails() {
 		String details = 
-				"Vehicle ID:     "+getVehicleId()+"\n"+
-				"Year:           "+getYear()+"\n"+
-				"Make:           "+getMake()+"\n"+
-				"Model           "+getModel()+"\n"+
-				"Number of seats:"+getNumOfSeats()+"\n"+
-				"Status:         "+getStatus()+"\n"+
+				"Vehicle ID:                    "+getVehicleId()+"\n"+
+				"Year:                          "+getYear()+"\n"+
+				"Make:                          "+getMake()+"\n"+
+				"Model                          "+getModel()+"\n"+
+				"Number of seats:               "+getNumOfSeats()+"\n"+
+				"Status:                        "+getStatus()+"\n"+
 				"Last maintenance date:         "+lastMaintenance+"\n";
 		if(this.getRentalRecord().isEmpty()){
 			details += "RENTAL RECORD:         "+"empty";
 		}else{
 			details += "RENTAL RECORD:         "+"\n";
 			for(int i = 0; i <getRentalRecord().size();i++){
-				details += "Record ID:         "+getRentalRecord().get(i).getRecordId()+"\n"+
-						   "Rent Date:         "+getRentalRecord().get(i).getRentDate()+"\n"+
+				details += "Record ID:                     "+getRentalRecord().get(i).getRecordId()+"\n"+
+						   "Rent Date:                     "+getRentalRecord().get(i).getRentDate()+"\n"+
 						   "Estimated Return Date:         "+getRentalRecord().get(i).getEstiReturnDate()+"\n";
 				if(getRentalRecord().get(i).getRentalFee()==0){
 					details += "-------------------------------------------------------------------"+"\n";
-					break;
 				}else{
-					details += "Actual Return Date:         "+getRentalRecord().get(i).getActReturnDate()+"\n"+
-					           "Rental Fee:         "+getRentalRecord().get(i).getRentalFee()+"\n"+
-					           "Late Fee:         "+getRentalRecord().get(i).getLateFee()+"\n"+
+					details += "Actual Return Date:           "+getRentalRecord().get(i).getActReturnDate()+"\n"+
+					           "Rental Fee:                   "+String.format("%.2f", getRentalRecord().get(i).getRentalFee())+"\n"+
+					           "Late Fee:                     "+String.format("%.2f",getRentalRecord().get(i).getLateFee())+"\n"+
 					           "-------------------------------------------------------------------"+"\n";
 				}
 			}

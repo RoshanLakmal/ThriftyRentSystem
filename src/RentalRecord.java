@@ -87,9 +87,9 @@ public class RentalRecord {
 			return details;
 		}else{
 			details += 
-					"Actual Return Date:             "+actReturnDate+"\n"+
-					"Rental Fee:                     "+String.format("%.2f", rentalFee)+"\n"+
-					"Late Fee:                       "+String.format("%.2f", lateFee)+"\n";
+				"Actual Return Date:              "+actReturnDate+"\n"+
+				"Rental Fee:                      "+String.format("%.2f", rentalFee)+"\n"+
+				"Late Fee:                        "+String.format("%.2f", lateFee)+"\n";
 			return details;
 		}
 	}
